@@ -1,0 +1,398 @@
+@use "../variables" as *;
+@use "../media" as *;
+
+@mixin drop($top, $right, $rotate) {
+  &::before {
+    content: "";
+    position: absolute;
+    background-image: url("../img/drop.svg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    top: $top;
+    right: $right;
+    width: 9px;
+    height: 6px;
+    transform: rotate($rotate);
+    transition: transform 0.3s ease-in;
+
+    @include mobile {
+      left: $right;
+      right: none;
+    }
+  }
+}
+
+@mixin arrow($rotate) {
+  &::before {
+    content: "";
+    position: absolute;
+    background-image: url("../img/arrow.svg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    width: 28px;
+    height: 14px;
+    transform: rotate($rotate);
+
+    @include tablet {
+      display: none;
+    }
+  }
+}
+
+.container {
+	max-width: 1196px;
+	margin: 0 auto;
+
+	@include laptop {
+		max-width: 900px;
+	}
+	
+	@include tablet {
+		max-width: auto;	
+		margin: 0 22px;
+	}
+	
+	@include mobile {
+		margin: 0 20px;	}
+}
+
+.header {
+  background-color: $dark-gray;
+
+  &__container {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 17px 0 18px 0;
+  }
+
+  &__nav {
+    @include tablet {
+      position: fixed;
+      top: 81px;
+      right: -374px;
+      background-color: $dark-gray;
+      width: 374px;
+      height: 100vh;
+      z-index: 5;
+      overflow-y: scroll;
+
+      &::-webkit-scrollbar {
+        width: 0;
+      }
+    }
+
+    @include mobile {
+      width: 100%;
+      right: -500px;
+    }
+  }
+
+  &__nav-menu {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 40px;
+
+    @include laptop {
+      gap: 10px;
+    }
+
+    @include tablet {
+      flex-direction: column;
+      gap: 0;
+    }
+  }
+
+  &__nav-item {
+    position: relative;
+
+    @include hover {
+      &:hover .header__sub-menu {
+        display: block;
+      }
+
+      &:hover .header__nav-link {
+        transition: color 0.3s ease-in;
+        color: $red;
+
+        @include tablet {
+          color: $white;
+        }
+      }
+
+      &:hover .header__nav-drop::before {
+        transition: transform 0.3s ease-in;
+        transform: rotate(180deg);
+      }
+    }
+
+    @include tablet {
+      background-color: $gray;
+
+      @include hover {
+        &:hover {
+          transition: transform 0.3s ease-in;
+          background-color: $dark-gray;
+        }
+      }
+    }
+  }
+
+  &__nav-link {
+    display: block;
+    padding: 8px 18px;
+
+    @include tablet {
+      padding: 20px;
+    }
+
+  }
+
+  &__nav-drop {
+    @include drop(16px, 1px, 0);
+
+    @include tablet {
+      @include drop(28px, 200px, 0);
+    }
+
+    @include mobile {
+      @include drop(28px, 166px, 0);
+    }
+  }
+
+  &__sub-menu {
+    display: none;
+    position: absolute;
+    padding-top: 21px;
+    left: 0;
+    @include arrow(0);
+
+    &::before {
+      top: 7px;
+      left: 47px;
+    }
+
+    @include tablet {
+      position: relative;
+      padding-top: 0;
+
+    }
+  }
+
+  &__sub-item {
+    position: relative;
+    background-color: $gray;
+    width: 320px;
+    transition: background-color 0.3s ease-in;
+
+    @include tablet {
+      width: 100%;
+    }
+
+    @include hover {
+      &:hover .header__third-menu {
+        display: block;
+      }
+
+      &:hover {
+        background-color: $dark-gray;
+      }
+
+      &:hover .header__sub-drop::before {
+        transition: transform 0.3s ease-in;
+        transform: rotate(-270deg);
+
+        @include tablet {
+          transform: rotate(180deg);
+        }
+      }
+    }
+
+    &:last-child {
+      border-radius: 0 0 8px 8px;
+
+      @include tablet {
+        border-radius: 0;
+      }
+    }
+  }
+
+  &__sub-link {
+    padding: 8px 0 8px 18px;
+    display: block;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    font-size: 16px;
+    line-height: 1.5;
+
+    @include tablet {
+      padding: 20px;
+    }
+
+    @include mobile {
+      white-space: wrap;
+    }
+  }
+
+  &__sub-drop {
+    padding-right: 38px;
+    @include drop(17px, 15px, -90deg);
+
+    @include tablet {
+      @include drop(29px, 18px, 0);
+    }
+
+    @include mobile {
+      @include drop(29px, 348px, 0);
+    }
+  }
+
+  &__third-menu {
+    display: none;
+    position: absolute;
+    bottom: 0;
+    right: -202px;
+    padding-left: 22px;
+    @include arrow(-90deg);
+
+    &::before {
+      bottom: 15px;
+      left: 1px;
+    }
+
+    @include tablet {
+      position: relative;
+      padding-left: 0;
+      right: 0;
+    }
+  }
+
+  &__third-item {
+    background-color: $gray;
+    width: 180px;
+
+    @include tablet {
+      width: 100%;
+    }
+
+    &:first-child {
+      border-radius: 8px 8px 0 0;
+
+      @include tablet {
+        border-radius: 0;
+      }
+    }
+
+    &:last-child {
+      border-radius: 0 0 8px 8px;
+
+      @include tablet {
+        border-radius: 0;
+      }
+    }
+
+    @include hover {
+      &:hover {
+        transition: background-color 0.3s ease-in;
+        background-color: $dark-gray;
+      }
+    }
+  }
+
+  &__third-link {
+    display: block;
+    padding: 8px 0 8px 18px;
+    font-size: 16px;
+    line-height: 1.5;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+
+    @include tablet {
+      padding: 20px;
+    }
+  }
+
+  &__contact {
+    position: relative;
+
+    @include mobile {
+      position: absolute;
+      top: 29px;
+      right: 70px;
+    }
+  }
+
+  &__contact-link {
+    display: block;
+    padding-left: 30px;
+    white-space: nowrap;
+    font-weight: 500;
+
+    @include hover {
+      &:hover {
+        transition: color 0.3s ease-in;
+        color: $red;
+      }
+    }
+
+    @include mobile {
+      font-size: 0;
+      padding-left: 0;
+    }
+
+    &::before {
+      content: "";
+      position: absolute;
+      background-image: url("../img/telephone.svg");
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: cover;
+      top: 2px;
+      left: 0;
+      width: 18px;
+      height: 18px;
+    }
+  }
+
+  &__button {
+    display: none;
+
+    @include tablet {
+      display: block;
+      background-color: $dark-gray;
+      background-image: url("../img/menu.svg");
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: cover;
+      width: 22px;
+      height: 14px;
+    }
+  }
+}
+
+.header__nav-active {
+  transition: right 0.4s ease-in;
+  right: 0;
+}
+
+.rotate::before {
+  transform: rotate(180deg);
+}
+
+.rotate-drop::before {
+  transform: rotate(90deg);
+
+  @include tablet {
+    transform: rotate(180deg);
+  }
+}
+
+.sub__menu-active,
+.third__menu-active {
+  display: block;
+}
