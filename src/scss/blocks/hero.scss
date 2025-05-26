@@ -1,0 +1,24 @@
+@use "../variables" as *;
+@use "../media" as *;
+
+.main {
+  @include tablet {
+    &__show-overlay::before {
+        content: "";
+        right: 0;
+        top: 81px;
+        position: absolute;
+        width: 100vw;
+        height: 100vh;
+        background-color: $overlay;
+    }
+  }
+}
+
+.hero {
+  background: url("../img/alpaca.webp") no-repeat top/cover;
+  width: 100vw;
+  height: 100vh;
+}
+
+		
